@@ -1,14 +1,14 @@
 
-FROM alpine:edge
+FROM alpine:3.6
 
 MAINTAINER Bodo Schulz <bodo@boone-schulz.de>
 
 ENV \
   ALPINE_MIRROR="mirror1.hs-esslingen.de/pub/Mirrors" \
-  ALPINE_VERSION="edge" \
+  ALPINE_VERSION="v3.6" \
   TERM=xterm \
   BUILD_DATE="2017-09-11" \
-  COLLECTD_VERSION="5.7.2"
+  COLLECTD_VERSION="5.6.2"
 
 LABEL \
   version="1709-36" \
