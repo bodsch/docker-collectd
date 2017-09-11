@@ -1,6 +1,5 @@
 #!/bin/bash
 
-set -x
 set -e
 
 COLLECTD_HOST=${COLLECTD_HOST:-$(hostname -f)}
@@ -21,7 +20,7 @@ configure() {
 
   sed -i \
     -e "s|%COLLECTD_HOST%|${COLLECTD_HOST}|g" \
-    -e "s|%COLLECTD_INTERVAL%|COLLECTD_INTERVAL|g" \
+    -e "s|%COLLECTD_INTERVAL%|${COLLECTD_INTERVAL}|g" \
     -e "s|%GRAPHITE_HOST%|${GRAPHITE_HOST}|g" \
     -e "s|%GRAPHITE_PORT%|${GRAPHITE_PORT}|g" \
     -e "s|%GRAPHITE_PREFIX%|${GRAPHITE_PREFIX}|g" \
