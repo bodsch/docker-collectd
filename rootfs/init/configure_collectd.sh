@@ -1,6 +1,5 @@
 #!/bin/bash
 
-set -x
 set -e
 
 COLLECTD_HOST=${COLLECTD_HOST:-$(hostname -f)}
