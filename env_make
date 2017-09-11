@@ -1,0 +1,12 @@
+PORTS =
+#  --publish
+
+VOLUMES = \
+  --volume /var/log/docker:/var/log \
+  --volume /tmp/docker-data:/srv \
+  --volume /proc:/host/proc:ro \
+  --volume /sys:/host/sys:ro \
+  --volume /sys:/sys:ro
+
+ENV = \
+  --env GRAPHITE_HOST=moebius-monitoring-tsdb
