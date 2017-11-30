@@ -1,0 +1,12 @@
+sudo: required
+
+services:
+  - docker
+
+install:
+  - docker build --tag bodsch/docker-collectd .
+  - docker run --detach --name collectd bodsch/docker-collectd
+
+script:
+  - docker ps | grep -q collectd
+

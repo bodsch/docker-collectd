@@ -4,14 +4,12 @@ FROM alpine:3.6
 MAINTAINER Bodo Schulz <bodo@boone-schulz.de>
 
 ENV \
-  ALPINE_MIRROR="mirror1.hs-esslingen.de/pub/Mirrors" \
-  ALPINE_VERSION="v3.6" \
   TERM=xterm \
-  BUILD_DATE="2017-09-11" \
+  BUILD_DATE="2017-11-30" \
   COLLECTD_VERSION="5.6.2"
 
 LABEL \
-  version="1709-36" \
+  version="1711" \
   org.label-schema.build-date=${BUILD_DATE} \
   org.label-schema.name="Collectd Docker Image" \
   org.label-schema.description="Inofficial Collectd Docker Image" \
@@ -28,12 +26,10 @@ LABEL \
 COPY rootfs/ /
 
 RUN \
-  echo "http://${ALPINE_MIRROR}/alpine/${ALPINE_VERSION}/main"       > /etc/apk/repositories && \
-  echo "http://${ALPINE_MIRROR}/alpine/${ALPINE_VERSION}/community" >> /etc/apk/repositories && \
-  apk --no-cache update && \
-  apk --no-cache upgrade && \
+  apk --quiet --no-cache update && \
+  apk --quiet --no-cache upgrade && \
   echo 'hosts: files dns' >> /etc/nsswitch.conf && \
-  apk --no-cache add \
+  apk --quiet --no-cache add \
     collectd \
     collectd-dns \
     collectd-mysql \
