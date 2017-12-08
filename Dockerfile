@@ -1,15 +1,15 @@
 
-FROM alpine:3.6
+FROM alpine:3.7
 
 MAINTAINER Bodo Schulz <bodo@boone-schulz.de>
 
 ENV \
   TERM=xterm \
-  BUILD_DATE="2017-11-30" \
-  COLLECTD_VERSION="5.6.2"
+  BUILD_DATE="2017-12-08" \
+  COLLECTD_VERSION="5.7.2"
 
 LABEL \
-  version="1711" \
+  version="1712" \
   org.label-schema.build-date=${BUILD_DATE} \
   org.label-schema.name="Collectd Docker Image" \
   org.label-schema.description="Inofficial Collectd Docker Image" \
