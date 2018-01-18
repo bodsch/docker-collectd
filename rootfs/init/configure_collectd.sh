@@ -4,11 +4,12 @@ set -e
 
 COLLECTD_HOST=${COLLECTD_HOST:-$(hostname -f)}
 COLLECTD_INTERVAL=${COLLECTD_INTERVAL:-45}
+
 GRAPHITE_HOST=${GRAPHITE_HOST:-}
 GRAPHITE_PORT=${GRAPHITE_PORT:-2003}
 GRAPHITE_PREFIX=${GRAPHITE_PREFIX:-"collectd."}
 
-if [ -z ${GRAPHITE_HOST} ]
+if [[ -z ${GRAPHITE_HOST} ]]
 then
   echo "no GRAPHITE_HOST configured"
   exit 1
@@ -16,7 +17,7 @@ fi
 
 configure() {
 
-  [ -d /etc/collectd/collectd.d ] || mkdir /etc/collectd/collectd.d
+  [[ -d /etc/collectd/collectd.d ]] || mkdir /etc/collectd/collectd.d
 
   sed -i \
     -e "s|%COLLECTD_HOST%|${COLLECTD_HOST}|g" \
@@ -28,7 +29,7 @@ configure() {
 
   collectd -t
 
-  if [ $? -gt 0 ]
+  if [[ $? -gt 0 ]]
   then
     echo " [E] configuration not valid"
     exit 1

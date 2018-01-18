@@ -9,4 +9,4 @@ VOLUMES = \
   --volume /sys:/sys:ro
 
 ENV = \
-  --env GRAPHITE_HOST=moebius-monitoring-tsdb
+  --env GRAPHITE_HOST=localhost

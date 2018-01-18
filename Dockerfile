@@ -1,15 +1,15 @@
 
 FROM alpine:3.7
 
-MAINTAINER Bodo Schulz <bodo@boone-schulz.de>
-
 ENV \
   TERM=xterm \
-  BUILD_DATE="2017-12-08" \
+  TZ='Europe/Berlin' \
+  BUILD_DATE="2018-01-18" \
   COLLECTD_VERSION="5.7.2"
 
 LABEL \
-  version="1712" \
+  version="1801" \
+  maintainer="Bodo Schulz <bodo@boone-schulz.de>" \
   org.label-schema.build-date=${BUILD_DATE} \
   org.label-schema.name="Collectd Docker Image" \
   org.label-schema.description="Inofficial Collectd Docker Image" \
@@ -47,7 +47,10 @@ RUN \
     collectd-disk \
     collectd-ping \
     collectd-utils \
-    collectd-curl && \
+    collectd-curl \
+    tzdata && \
+  cp /usr/share/zoneinfo/${TZ} /etc/localtime && \
+  echo ${TZ} > /etc/timezone && \
   mv /etc/collectd/collectd.conf /etc/collectd/collectd.conf-DIST && \
   rm -rf \
     /tmp/* \
