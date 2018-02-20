@@ -4,11 +4,11 @@ FROM alpine:3.7
 ENV \
   TERM=xterm \
   TZ='Europe/Berlin' \
-  BUILD_DATE="2018-01-18" \
+  BUILD_DATE="2018-02-20" \
   COLLECTD_VERSION="5.7.2"
 
 LABEL \
-  version="1801" \
+  version="1802" \
   maintainer="Bodo Schulz <bodo@boone-schulz.de>" \
   org.label-schema.build-date=${BUILD_DATE} \
   org.label-schema.name="Collectd Docker Image" \
@@ -31,23 +31,25 @@ RUN \
   echo 'hosts: files dns' >> /etc/nsswitch.conf && \
   apk --quiet --no-cache add \
     collectd \
+    collectd-apache \
+    collectd-bind \
+    collectd-curl \
+    collectd-disk \
     collectd-dns \
+    collectd-iptables \
+    collectd-lvm \
     collectd-mysql \
-    collectd-nginx \
     collectd-network \
+    collectd-nginx \
+    collectd-ping \
+    collectd-postgresql \
+    collectd-python\
+    collectd-redis \
+    collectd-sensors \
+    collectd-utils \
+    collectd-virt \
     collectd-write_redis \
     collectd-write_http \
-    collectd-postgresql \
-    collectd-sensors \
-    collectd-lvm \
-    collectd-virt \
-    collectd-iptables \
-    collectd-bind \
-    collectd-redis \
-    collectd-disk \
-    collectd-ping \
-    collectd-utils \
-    collectd-curl \
     tzdata && \
   cp /usr/share/zoneinfo/${TZ} /etc/localtime && \
   echo ${TZ} > /etc/timezone && \
