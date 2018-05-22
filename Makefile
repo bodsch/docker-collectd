@@ -8,26 +8,43 @@ REPO     = docker-collectd
 NAME     = collectd
 INSTANCE = default
 
+BUILD_DATE := $(shell date +%Y-%m-%d)
+BUILD_VERSION := $(shell date +%y%m)
+BUILD_TYPE ?= "stable"
+COLLECTD_VERSION ?= "5.8.0"
+
 .PHONY: build push shell run start stop rm release
 
+default: build
 
-build:
+params:
+	@echo ""
+	@echo " COLLECTD_VERSION: ${COLLECTD_VERSION}"
+	@echo " BUILD_DATE     : $(BUILD_DATE)"
+	@echo ""
+
+build: params
 	docker build \
-		--rm \
-		--tag $(NS)/$(REPO):$(VERSION) .
+		--force-rm \
+		--compress \
+		--build-arg BUILD_DATE=$(BUILD_DATE) \
+		--build-arg BUILD_VERSION=$(BUILD_VERSION) \
+		--build-arg BUILD_TYPE=$(BUILD_TYPE) \
+		--build-arg COLLECTD_VERSION=${COLLECTD_VERSION} \
+		--tag $(NS)/$(REPO):$(COLLECTD_VERSION) .
 
 clean:
 	docker rmi \
 		--force \
-		$(NS)/$(REPO):$(VERSION)
+		$(NS)/$(REPO):$(COLLECTD_VERSION)
 
 history:
 	docker history \
-		$(NS)/$(REPO):$(VERSION)
+		$(NS)/$(REPO):$(COLLECTD_VERSION)
 
 push:
 	docker push \
-		$(NS)/$(REPO):$(VERSION)
+		$(NS)/$(REPO):$(COLLECTD_VERSION)
 
 shell:
 	docker run \
@@ -38,7 +55,7 @@ shell:
 		$(PORTS) \
 		$(VOLUMES) \
 		$(ENV) \
-		$(NS)/$(REPO):$(VERSION) \
+		$(NS)/$(REPO):$(COLLECTD_VERSION) \
 		/bin/sh
 
 run:
@@ -49,7 +66,7 @@ run:
 		$(PORTS) \
 		$(VOLUMES) \
 		$(ENV) \
-		$(NS)/$(REPO):$(VERSION)
+		$(NS)/$(REPO):$(COLLECTD_VERSION)
 
 exec:
 	docker exec \
@@ -65,7 +82,7 @@ start:
 		$(PORTS) \
 		$(VOLUMES) \
 		$(ENV) \
-		$(NS)/$(REPO):$(VERSION)
+		$(NS)/$(REPO):$(COLLECTD_VERSION)
 
 stop:
 	docker stop \
@@ -76,7 +93,7 @@ rm:
 		$(NAME)-$(INSTANCE)
 
 release: build
-	make push -e VERSION=$(VERSION)
+	make push -e VERSION=$(COLLECTD_VERSION)
 
 default: build
 
