@@ -17,6 +17,6 @@ jobs:
         - docker ps | grep -q collectd
         - make stop
         - docker login -u="${DOCKER_USERNAME}" -p="${DOCKER_PASSWORD}"
-        - docker push ${DOCKER_USERNAME}/docker-collectd:${JOLOKIA_VERSION}
-        - docker tag ${DOCKER_USERNAME}/docker-collectd:${JOLOKIA_VERSION} ${DOCKER_USERNAME}/docker-collectd:latest
+        - docker push ${DOCKER_USERNAME}/docker-collectd:${COLLECTD_VERSION}
+        - docker tag ${DOCKER_USERNAME}/docker-collectd:${COLLECTD_VERSION} ${DOCKER_USERNAME}/docker-collectd:latest
         - docker push ${DOCKER_USERNAME}/docker-collectd:latest
