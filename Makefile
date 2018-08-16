@@ -8,9 +8,9 @@ REPO     = docker-collectd
 NAME     = collectd
 INSTANCE = default
 
-BUILD_DATE := $(shell date +%Y-%m-%d)
-BUILD_VERSION := $(shell date +%y%m)
-BUILD_TYPE ?= "stable"
+BUILD_DATE 	:= $(shell date +%Y-%m-%d)
+BUILD_VERSION 	:= $(shell date +%y%m)
+BUILD_TYPE 	?= "stable"
 COLLECTD_VERSION ?= "5.8.0"
 
 .PHONY: build push shell run start stop rm release
