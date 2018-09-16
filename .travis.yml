@@ -6,7 +6,7 @@ services:
 env:
   global:
     - BUILD_DATE=$(date +"%Y-%m-%d")
-    - COLLECTD_VERSION=${COLLECTD_VERSION:-5.8.0}
+    - COLLECTD_VERSION=$(./latest_release.sh)
 
 jobs:
   include:
