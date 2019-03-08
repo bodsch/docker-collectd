@@ -29,8 +29,8 @@ jobs:
       if: branch = master
       script:
         - make
-        - docker tag ${USER}/docker-collectd:latest ${DOCKER_USERNAME}/docker-docker-collectd:latest
-        - docker tag ${USER}/docker-collectd:latest ${DOCKER_USERNAME}/docker-docker-collectd:${COLLECTD_VERSION}
+        - docker tag ${USER}/collectd:latest ${DOCKER_USERNAME}/docker-docker-collectd:latest
+        - docker tag ${USER}/collectd:latest ${DOCKER_USERNAME}/docker-docker-collectd:${COLLECTD_VERSION}
         #
         - docker login -u="${DOCKER_USERNAME}" -p="${DOCKER_PASSWORD}"
         #
