@@ -22,5 +22,3 @@ services:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
       - /sys:/sys:ro
-      -
-
