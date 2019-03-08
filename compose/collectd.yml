@@ -1,0 +1,26 @@
+---
+version: '3.3'
+
+services:
+
+  collectd:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+      args:
+        - BUILD_DATE=${BUILD_DATE}
+        - BUILD_VERSION=${BUILD_VERSION}
+        - BUILD_TYPE=${BUILD_TYPE}
+        - COLLECTD_VERSION=${COLLECTD_VERSION}
+    container_name: collectd
+    privileged: true
+    environment:
+      - GRAPHITE_HOST
+    links:
+      - graphite
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /sys:/sys:ro
+      -
+

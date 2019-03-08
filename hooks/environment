@@ -1,0 +1,10 @@
+
+PORTS=""
+
+VOLUMES="
+  --volume /proc:/host/proc:ro
+  --volume /sys:/host/sys:ro
+  --volume /sys:/sys:ro"
+
+ENV="
+  --env GRAPHITE_HOST=localhost"

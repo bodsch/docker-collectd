@@ -5,18 +5,36 @@ services:
 
 env:
   global:
+    - DOCKER_USERNAME=bodsch
     - BUILD_DATE=$(date +"%Y-%m-%d")
-    - COLLECTD_VERSION=$(./latest_release.sh)
+    - BUILD_VERSION=$(date +"%y%m")
+    - COLLECTD_VERSION=$(./hooks/latest_release.sh)
 
 jobs:
   include:
-    - stage: build, test and push docker image
+    - stage: build
       script:
-        - make build
-        - make start
-        - docker ps | grep -q collectd
-        - make stop
+        - make
+
+    - stage: test
+      script:
+        - make compose-file
+        - docker-compose build
+        - docker-compose up -d
+        - sleep 30s
+        - make test
+        - docker-compose down
+
+    - stage: push docker image
+      if: branch = master
+      script:
+        - make
+        - docker tag ${USER}/docker-collectd:latest ${DOCKER_USERNAME}/docker-docker-collectd:latest
+        - docker tag ${USER}/docker-collectd:latest ${DOCKER_USERNAME}/docker-docker-collectd:${COLLECTD_VERSION}
+        #
         - docker login -u="${DOCKER_USERNAME}" -p="${DOCKER_PASSWORD}"
-        - docker push ${DOCKER_USERNAME}/docker-collectd:${COLLECTD_VERSION}
-        - docker tag ${DOCKER_USERNAME}/docker-collectd:${COLLECTD_VERSION} ${DOCKER_USERNAME}/docker-collectd:latest
-        - docker push ${DOCKER_USERNAME}/docker-collectd:latest
+        #
+        - docker push ${DOCKER_USERNAME}/docker-docker-collectd:latest
+        - docker push ${DOCKER_USERNAME}/docker-docker-collectd:${COLLECTD_VERSION}
+        #
+        - docker logout
