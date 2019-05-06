@@ -1,40 +1,33 @@
 sudo: required
-
 services:
-  - docker
-
+- docker
 env:
   global:
-    - DOCKER_USERNAME=bodsch
-    - BUILD_DATE=$(date +"%Y-%m-%d")
-    - BUILD_VERSION=$(date +"%y%m")
-    - COLLECTD_VERSION=$(./hooks/latest_release.sh)
-
+  - DOCKER_USERNAME=bodsch
+  - BUILD_DATE=$(date +"%Y-%m-%d")
+  - BUILD_VERSION=$(date +"%y%m")
+  - COLLECTD_VERSION=$(./hooks/latest_release.sh)
+  - secure: ESHy4ocPzIhUxy/sLihy0WJTumv9J2J3urtSnNo1I3OjVCHXQqCVYIkLN5dxac+LEi6l0Rhx+zoFpHA5ZzEC33ZQ1ffGIOJeawMLWKqqBaefJ0aTe5oJUBfg6jf2IH0NeIQSXwlnPdjOG207ZT2cJ/gceQxg2/FzTjpqoPfXzJdmcsES7huYJXZ7HNO/FYVMMs6K3cSNWm0Ch+z8GBAWealui8SDyZlTySJgbAZzsjszb+puGvv51ViB7OCqqQuVTxUirWVBgCG52WPzKnUKCrpItlIFvMCdtq2K6S1b2vuWtQ6GZOqMqm+sYuYxrkg7VrepsrRRJWzy3B9njivTKqYaVf+6KMyvYVy9dwYBrZD8RdYaHV9PvN0j6o06/fdmFUMQktieFIJmwN/fP5PEPfwODArc70yQzz/mh3xVF2sZauK+G7EB24rRUncCwThXbwBg49///vHBg9ju+DR79IWChdcQu53AhybONhJa6dQgy35Y5xmiBnbBVGYBIMifQ2DMB0wE+lWbOPgrHbYQUh8qeNce0BAk9IRVPY3m+08gYPGqMn5J5dKBZnykWghceVBVskr6IhabIVkVem9oGChW9N/Q7uXG7uqipHPvphCVh729qkI8qIY4VTXBrMGUZItGp5q47xDGwKYJEbmchQtnFcsj7OEzHMsqZ9HbUYA=
 jobs:
   include:
-    - stage: build
-      script:
-        - make
-
-    - stage: test
-      script:
-        - make compose-file
-        - docker-compose build
-        - docker-compose up -d
-        - sleep 30s
-        - make test
-        - docker-compose down
-
-    - stage: push docker image
-      if: branch = master
-      script:
-        - make
-        - docker tag ${USER}/collectd:latest ${DOCKER_USERNAME}/docker-collectd:latest
-        - docker tag ${USER}/collectd:latest ${DOCKER_USERNAME}/docker-collectd:${COLLECTD_VERSION}
-        #
-        - docker login -u="${DOCKER_USERNAME}" -p="${DOCKER_PASSWORD}"
-        #
-        - docker push ${DOCKER_USERNAME}/docker-collectd:latest
-        - docker push ${DOCKER_USERNAME}/docker-collectd:${COLLECTD_VERSION}
-        #
-        - docker logout
+  - stage: build
+    script:
+    - make
+  - stage: test
+    script:
+    - make compose-file
+    - docker-compose build
+    - docker-compose up -d
+    - sleep 30s
+    - make test
+    - docker-compose down
+  - stage: push docker image
+    if: branch = master
+    script:
+    - make
+    - docker tag ${USER}/collectd:latest ${DOCKER_USERNAME}/docker-collectd:latest
+    - docker tag ${USER}/collectd:latest ${DOCKER_USERNAME}/docker-collectd:${COLLECTD_VERSION}
+    - docker login -u="${DOCKER_USERNAME}" -p="${DOCKER_PASSWORD}"
+    - docker push ${DOCKER_USERNAME}/docker-collectd:latest
+    - docker push ${DOCKER_USERNAME}/docker-collectd:${COLLECTD_VERSION}
+    - docker logout
